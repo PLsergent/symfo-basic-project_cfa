@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -40,6 +42,22 @@ class Patient
      * @ORM\Column(type="string", length=255)
      */
     private $sexe;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Consultation", mappedBy="numSS")
+     */
+    private $consultations;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Ordonnance", mappedBy="numSS")
+     */
+    private $ordonnances;
+
+    public function __construct()
+    {
+        $this->consultations = new ArrayCollection();
+        $this->ordonnances = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -102,6 +120,68 @@ class Patient
     public function setSexe(string $sexe): self
     {
         $this->sexe = $sexe;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Consultation[]
+     */
+    public function getConsultations(): Collection
+    {
+        return $this->consultations;
+    }
+
+    public function addConsultation(Consultation $consultation): self
+    {
+        if (!$this->consultations->contains($consultation)) {
+            $this->consultations[] = $consultation;
+            $consultation->setNumSS($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConsultation(Consultation $consultation): self
+    {
+        if ($this->consultations->contains($consultation)) {
+            $this->consultations->removeElement($consultation);
+            // set the owning side to null (unless already changed)
+            if ($consultation->getNumSS() === $this) {
+                $consultation->setNumSS(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Ordonnance[]
+     */
+    public function getOrdonnances(): Collection
+    {
+        return $this->ordonnances;
+    }
+
+    public function addOrdonnance(Ordonnance $ordonnance): self
+    {
+        if (!$this->ordonnances->contains($ordonnance)) {
+            $this->ordonnances[] = $ordonnance;
+            $ordonnance->setNumSS($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrdonnance(Ordonnance $ordonnance): self
+    {
+        if ($this->ordonnances->contains($ordonnance)) {
+            $this->ordonnances->removeElement($ordonnance);
+            // set the owning side to null (unless already changed)
+            if ($ordonnance->getNumSS() === $this) {
+                $ordonnance->setNumSS(null);
+            }
+        }
 
         return $this;
     }
