@@ -39,7 +39,7 @@ class Ordonnance
     private $matricule;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\LignePrescription", mappedBy="numeroOrdre")
+     * @ORM\OneToMany(targetEntity="App\Entity\LignePrescription", mappedBy="numeroOrdre", cascade={"persist"})
      */
     private $lignePrescriptions;
 

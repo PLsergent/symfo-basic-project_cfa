@@ -29,13 +29,14 @@ class Medicament
     private $conditionnement;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\LignePrescription", mappedBy="dénomination")
+     * @ORM\OneToMany(targetEntity="App\Entity\LignePrescription", mappedBy="dénomination", cascade={"persist"})
      */
     private $lignePrescriptions;
 
     public function __construct()
     {
         $this->lignePrescriptions = new ArrayCollection();
+        $this->patients = new ArrayCollection();
     }
 
     public function getId(): ?int

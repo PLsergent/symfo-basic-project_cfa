@@ -19,7 +19,7 @@ class Patient
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private $numSS;
 
@@ -36,20 +36,20 @@ class Patient
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $dateNaissance;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $sexe;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Consultation", mappedBy="numSS")
+     * @ORM\Column(type="date")
+     */
+    private $dateNaissance;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Consultation", mappedBy="numSS", cascade={"persist"})
      */
     private $consultations;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ordonnance", mappedBy="numSS")
+     * @ORM\OneToMany(targetEntity="App\Entity\Ordonnance", mappedBy="numSS", cascade={"persist"})
      */
     private $ordonnances;
 
@@ -64,12 +64,12 @@ class Patient
         return $this->id;
     }
 
-    public function getNumSS(): ?int
+    public function getNumSS(): ?string
     {
         return $this->numSS;
     }
 
-    public function setNumSS(int $numSS): self
+    public function setNumSS(string $numSS): self
     {
         $this->numSS = $numSS;
 
@@ -100,18 +100,6 @@ class Patient
         return $this;
     }
 
-    public function getDateNaissance(): ?string
-    {
-        return $this->dateNaissance;
-    }
-
-    public function setDateNaissance(string $dateNaissance): self
-    {
-        $this->dateNaissance = $dateNaissance;
-
-        return $this;
-    }
-
     public function getSexe(): ?string
     {
         return $this->sexe;
@@ -120,6 +108,18 @@ class Patient
     public function setSexe(string $sexe): self
     {
         $this->sexe = $sexe;
+
+        return $this;
+    }
+
+    public function getDateNaissance(): ?\DateTimeInterface
+    {
+        return $this->dateNaissance;
+    }
+
+    public function setDateNaissance(\DateTimeInterface $dateNaissance): self
+    {
+        $this->dateNaissance = $dateNaissance;
 
         return $this;
     }

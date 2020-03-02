@@ -29,17 +29,17 @@ class Medecin
     private $prenom;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Consultation", mappedBy="matricule")
+     * @ORM\OneToMany(targetEntity="App\Entity\Consultation", mappedBy="matricule", cascade={"persist"})
      */
     private $consultations;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ordonnance", mappedBy="matricule")
+     * @ORM\OneToMany(targetEntity="App\Entity\Ordonnance", mappedBy="matricule", cascade={"persist"})
      */
     private $ordonnances;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private $matricule;
 
@@ -74,6 +74,18 @@ class Medecin
     public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getMatricule(): ?string
+    {
+        return $this->matricule;
+    }
+
+    public function setMatricule(string $matricule): self
+    {
+        $this->matricule = $matricule;
 
         return $this;
     }
@@ -136,18 +148,6 @@ class Medecin
                 $ordonnance->setMatricule(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getMatricule(): ?int
-    {
-        return $this->matricule;
-    }
-
-    public function setMatricule(int $matricule): self
-    {
-        $this->matricule = $matricule;
 
         return $this;
     }
